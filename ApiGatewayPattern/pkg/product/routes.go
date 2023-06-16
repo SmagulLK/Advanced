@@ -8,10 +8,10 @@ import (
 )
 
 func ProductRoutes(r *gin.Engine, c *config.Config, authService *auth.ServiceClient) {
-	a := auth.InitAuthMiddleware(authService)
+	//a := auth.InitAuthMiddleware(authService)
 	ProductService := &ProductServiceClient{Client: InitProductClient(c)}
 	routes := r.Group("/product")
-	routes.Use(a.AuthRequire)
+	//routes.Use(a.AuthRequire)
 	routes.POST("/", ProductService.CreateProduct)
 	routes.GET("/:id", ProductService.FindOne)
 }

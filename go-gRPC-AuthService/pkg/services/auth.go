@@ -52,7 +52,6 @@ func (s *Server) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.Reg
 }
 func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
 	user, err := s.H.UserRepository.FindByEmail(req.Email)
-	fmt.Println(user, req.Email)
 	if err != nil {
 		fmt.Println("Error while fetching user from database")
 		return &pb.LoginResponse{
@@ -69,7 +68,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	}
 
 	match := utils.CheckPasswordHash(req.Password, user.Password)
-	fmt.Println(req.Password, user.Password)
+
 	if !match {
 		fmt.Println("User not found")
 		return &pb.LoginResponse{
@@ -79,7 +78,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	}
 
 	token, err := s.Jwt.GenerateToken(*user)
-	fmt.Println(token)
+
 	if err != nil {
 		log.Fatalln("Error while generating token: ", err)
 		return &pb.LoginResponse{

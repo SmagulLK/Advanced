@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  go-grpc-auth-service:
+    build:
+      context: ./go-gRPC-AuthService
+      dockerfile: Dockerfile
+    ports:
+      - 50051:50051
+
+  api-gateway-pattern:
+    build:
+      context: ./ApiGatewayPattern
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+  product-grpc:
+    build:
+      context: ./ProductgRPC
+      dockerfile: Dockerfile
+    ports:
+      - 50052:50052

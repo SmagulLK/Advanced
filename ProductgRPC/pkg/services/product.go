@@ -70,7 +70,7 @@ func (s *Server) DecreaseStock(ctx context.Context, req *pb.DecreaseStockRequest
 	if product.Stock <= 0 {
 		return &pb.DecreaseStockResponse{
 			Status: http.StatusConflict,
-			Error:  "Stock too low",
+			Error:  "too low",
 		}, nil
 	}
 
@@ -79,7 +79,7 @@ func (s *Server) DecreaseStock(ctx context.Context, req *pb.DecreaseStockRequest
 	if result := s.H.DB.Where(&models.StockDecreaseLog{OrderId: req.OrderId}).First(&log); result.Error == nil {
 		return &pb.DecreaseStockResponse{
 			Status: http.StatusConflict,
-			Error:  "Stock already decreased",
+			Error:  "ended",
 		}, nil
 	}
 

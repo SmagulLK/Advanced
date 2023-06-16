@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"fmt"
 	"github.com/SmagulLK/APIGateway/pkg/auth/pb"
 	"github.com/gin-gonic/gin"
 	"strings"
@@ -22,7 +23,8 @@ func (c *AuthMiddleware) AuthRequire(ctx *gin.Context) {
 		ctx.AbortWithStatus(401)
 		return
 	}
-	token := strings.Split(authorization, "Bearer ")
+	token := strings.Split(authorization, "Bearer")
+	fmt.Println("token", len(token))
 	if len(token) != 2 {
 		ctx.AbortWithStatus(401)
 		return
@@ -30,7 +32,9 @@ func (c *AuthMiddleware) AuthRequire(ctx *gin.Context) {
 	res, err := c.service.Client.Validate(context.Background(), &pb.ValidateRequest{
 		Token: token[1],
 	})
+
 	if err != nil || res.Status != 200 {
+		fmt.Println(err)
 		ctx.AbortWithStatus(502)
 		return
 	}
